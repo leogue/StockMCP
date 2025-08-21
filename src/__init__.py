@@ -1,0 +1,1 @@
+# StockMCP - Model Context Protocol server for stock market data
