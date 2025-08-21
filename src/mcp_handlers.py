@@ -5,10 +5,13 @@ from models import (
 )
 from tools import get_available_tools, execute_tool
 from typing import Dict, Any
+import logging
 
 
 def handle_initialize(request: JsonRpcRequest) -> JsonRpcResponse:
     """Handle MCP initialize request"""
+    logging.info("Handling MCP initialize request")
+    
     capabilities = MCPCapabilities()
     server_info = MCPServerInfo(name="stockmcp-server", version="0.1.0")
     
@@ -25,7 +28,10 @@ def handle_initialize(request: JsonRpcRequest) -> JsonRpcResponse:
 
 def handle_tools_list(request: JsonRpcRequest) -> JsonRpcResponse:
     """Handle tools/list request"""
+    logging.debug("Handling tools/list request")
+    
     tools = get_available_tools()
+    logging.debug(f"Returning {len(tools)} available tools")
     result = MCPToolsListResult(tools=tools)
     
     return JsonRpcResponse(
@@ -48,9 +54,11 @@ def handle_tools_call(request: JsonRpcRequest) -> JsonRpcResponse:
         
         # Validate tool call parameters
         tool_params = MCPToolCallParams(**request.params)
+        logging.info(f"Executing tool: {tool_params.name} with arguments: {tool_params.arguments}")
         
         # Execute the tool
         tool_result = execute_tool(tool_params.name, tool_params.arguments)
+        logging.debug(f"Tool {tool_params.name} execution completed")
         
         # Create response content
         content = MCPContent(type="text", text=tool_result)
@@ -62,6 +70,7 @@ def handle_tools_call(request: JsonRpcRequest) -> JsonRpcResponse:
         )
         
     except Exception as e:
+        logging.error(f"Error executing tool call: {str(e)}")
         return JsonRpcResponse(
             id=request.id,
             error={
@@ -84,6 +93,7 @@ def handle_mcp_request(request_data: Dict[str, Any]) -> Dict[str, Any]:
     try:
         # Validate and parse request
         request = JsonRpcRequest(**request_data)
+        logging.debug(f"Routing MCP method: {request.method}")
         
         # Route to appropriate handler
         if request.method == "initialize":
@@ -93,6 +103,7 @@ def handle_mcp_request(request_data: Dict[str, Any]) -> Dict[str, Any]:
         elif request.method == "tools/call":
             response = handle_tools_call(request)
         else:
+            logging.warning(f"Unknown MCP method requested: {request.method}")
             response = JsonRpcResponse(
                 id=request.id,
                 error={
@@ -105,6 +116,7 @@ def handle_mcp_request(request_data: Dict[str, Any]) -> Dict[str, Any]:
         
     except Exception as e:
         # Handle validation or other errors
+        logging.error(f"Error handling MCP request: {str(e)}")
         return JsonRpcResponse(
             id=request_data.get("id", 0),
             error={

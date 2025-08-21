@@ -4,6 +4,7 @@ import json
 import pandas as pd
 from datetime import datetime, timedelta
 import numpy as np
+import logging
 from models import (
     MCPTool, MCPToolInputSchema, StockQuote, StockFundamentals,
     IncomeStatement, BalanceSheet, CashFlowStatement, FinancialRatios,
@@ -250,7 +251,7 @@ def calculate_financial_ratios(ticker: yf.Ticker, info: Dict[str, Any]) -> Finan
         return ratios
         
     except Exception as e:
-        print(f"Error calculating ratios: {str(e)}")
+        logging.error(f"Error calculating financial ratios: {str(e)}")
         return FinancialRatios()
 
 
@@ -716,7 +717,7 @@ def get_dividends_and_actions(arguments: Dict[str, Any]) -> str:
                 # Filter by date range
                 dividends_series = dividends_series[(dividends_series.index >= start_dt) & (dividends_series.index <= end_dt)]
         except Exception as e:
-            print(f"Error getting dividends: {e}")
+            logging.error(f"Error retrieving dividends data: {e}")
             dividends_series = pd.Series(dtype=float)
         
         # Get stock splits and actions
@@ -739,7 +740,7 @@ def get_dividends_and_actions(arguments: Dict[str, Any]) -> str:
                 # Filter by date range
                 splits = splits[(splits.index >= start_dt) & (splits.index <= end_dt)]
         except Exception as e:
-            print(f"Error getting splits: {e}")
+            logging.error(f"Error retrieving stock splits data: {e}")
             splits = pd.Series(dtype=float)
         
         # Get current price for yield calculation

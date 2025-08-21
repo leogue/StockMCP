@@ -321,8 +321,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 🐛 **Bug Reports** - [Open an issue](https://github.com/yourusername/StockMCP/issues)
-- 💡 **Feature Requests** - [Start a discussion](https://github.com/yourusername/StockMCP/discussions)
+- 🐛 **Bug Reports** - [Open an issue](https://github.com/leogue/StockMCP/issues)
+- 💡 **Feature Requests** - [Start a discussion](https://github.com/leogue/StockMCP/discussions)
 - 📖 **Documentation** - Check our comprehensive API docs
 - 💬 **Community** - Join our discussions for help and ideas
 
@@ -332,6 +332,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for the financial data community**
 
-[⭐ Star this repo](https://github.com/yourusername/StockMCP) | [🍴 Fork it](https://github.com/yourusername/StockMCP/fork) | [📖 Docs](https://github.com/yourusername/StockMCP/wiki)
+[⭐ Star this repo](https://github.com/leogue/StockMCP) | [🍴 Fork it](https://github.com/leogue/StockMCP/fork) | [📖 Docs](https://github.com/leogue/StockMCP/wiki)
 
 </div>
